@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer {
+  .shadow-solid {
+    box-shadow: 0 8px 0 0px #10212a;
+  }
+  .shadow-solid-sm {
+    box-shadow: 0 4px 0 0px #10212a;
+  }
+  .shadow-yellow {
+    box-shadow: 0 8px 0 #cc8b13;
+  }
+  .shadow-ocean {
+    box-shadow: 0 8px 0 #118c87;
+    transition: all 0.1s ease-in-out;
+  }
+  .shadow-ocean:active {
+    box-shadow:  0 4px 0 #118c87;
+  }
+  .shadow-gray {
+    box-shadow: inset 0 -4px 0 #6b8997;
+  }
+  .shadow-gray:active {
+    box-shadow: inset 0 -2px 0 #6b8997;
+  }
+}
