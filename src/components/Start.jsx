@@ -47,11 +47,11 @@ export const Start = () => {
         <img src={x} alt='x player' className='h-10 w-10' />
         <img src={o} alt='o player' className='h-10 w-10' />
       </div>
-      <section className='bg-ocean_dark p-5 rounded-xl text-gray flex flex-col items-center  shadow-solid'>
+      <section className='bg-ocean_dark p-5 rounded-xl text-gray flex flex-col items-center w-[300px] sm:w-auto shadow-solid'>
         <div>
           <h2 className='font-semibold text-center'>PICK PLAYER 1’S MARK</h2>
           <div className=' px-2 bg-dark rounded-xl'>
-            <article className='flex mt-4 w-96 justify-between relative items-center h-20 '>
+            <article className='flex mt-4 w-[260px] md:w-96 justify-between relative items-center h-20 '>
               <div
                 className={`absolute h-16 w-full z-10 flex my-auto top-0 bottom-0 ${
                   toggleOn && 'justify-end'

@@ -1,5 +1,4 @@
 export function handleWinner(moves, player) {
- 
   let result = []
   const movesWiners = [
     [1, 2, 3],

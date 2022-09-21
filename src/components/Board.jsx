@@ -104,7 +104,7 @@ export const Board = ({ handleClickReset }) => {
             ></path>
           </svg>
         )}
-        <h2 className='font-semibold text-md text-gray tracking-[2px]'>TURN</h2>
+        <h2 className='font-semibold text-xs md:text-md text-gray tracking-[2px]'>TURN</h2>
       </div>
       <button
         onClick={() => handleClickReset('restart')}
@@ -117,7 +117,7 @@ export const Board = ({ handleClickReset }) => {
       {state.match.map((box) => (
         <div
           ref={ref}
-          className={`grid w-32 h-32 font-extrabold rounded-lg bg-ocean_dark place-items-center shadow-solid ${
+          className={`grid w-20 h-20 md:w-32 md:h-32 font-extrabold rounded-lg bg-ocean_dark place-items-center shadow-solid ${
             (state.turnCPU || box.selected) &&
             state.cpu &&
             'cursor-not-allowed pointer-events-none'
@@ -132,15 +132,15 @@ export const Board = ({ handleClickReset }) => {
         </div>
       ))}
       <div className='bg-yellow rounded-lg flex flex-col items-center py-2 shadow-md'>
-        <p>{state.icon} {!state.cpu ? 'Player 1' : '(YOU)'}</p>
+        <p className='text-xs md:text-lg'>{state.icon} {!state.cpu ? 'Player 1' : '(YOU)'}</p>
         <h4 className='font-semibold text-xl'>{state.gamesWonPlayer}</h4>
       </div>
       <div className='bg-gray rounded-lg  flex flex-col items-center py-2 shadow-md'>
-        <p>TIES</p>
+        <p className='text-xs md:text-lg'>TIES</p>
         <h4 className='font-semibold text-xl'>{state.ties}</h4>
       </div>
       <div className='bg-ocean rounded-lg  flex flex-col items-center py-2 shadow-md'>
-        <p>
+        <p className='text-xs md:text-lg'>
           {state.icon === 'O' ? 'X' : 'O'} {!state.cpu ? 'Player 2' : '(CPU)'}
         </p>
         <h4 className='font-semibold text-xl'>{state.gamesWonCPU}</h4>
