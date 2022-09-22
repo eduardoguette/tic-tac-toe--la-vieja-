@@ -24,7 +24,7 @@ export const Winner = ({ winner, handleClickReset }) => {
     >
       <section className='text-gray flex flex-col items-center gap-5 bg-dark w-full py-10 bg-opacity-90'>
         {state.winner === 'TIES' ? (
-          <h1 className='text-2xl font-semibold'>TIE</h1>
+          <h1 className='text-5xl font-semibold'>TIE</h1>
         ) : (
           <h1 className='text-2xl font-semibold'>
             {state.winner === state.icon ? 'YOU WON' : 'YOU LOSE'}
@@ -40,7 +40,7 @@ export const Winner = ({ winner, handleClickReset }) => {
               )
             )}
           </span>
-          <h1>TAKES THE ROUND</h1>
+          {state.winner !== 'TIES' && <h1>TAKES THE ROUND</h1>}
         </div>
         <Reset handleClickReset={handleClickReset} />
       </section>

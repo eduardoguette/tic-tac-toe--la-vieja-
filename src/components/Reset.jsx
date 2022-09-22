@@ -8,16 +8,21 @@ export const Reset = ({ handleClickReset }) => {
     setState((prev) => ({
       ...prev,
       gamesWonCPU:
-        state.icon === state.winner ? state.gamesWonCPU : state.gamesWonCPU + 1,
+        state.icon === state.winner
+          ? state.gamesWonCPU
+          : state.winner === 'TIES'
+          ? state.gamesWonCPU
+          : state.gamesWonCPU + 1,
       gamesWonPlayer:
         state.icon !== state.winner
           ? state.gamesWonPlayer
           : state.gamesWonPlayer + 1,
       ties: state.winner === 'TIES' ? state.ties + 1 : state.ties,
-      companion:{
+      companion: {
         ...prev.companion,
         turn: false
-      }
+      },
+      moves: 0
     }))
   }, [])
 
@@ -36,7 +41,8 @@ export const Reset = ({ handleClickReset }) => {
       gamesWonPlayer: 0,
       ties: 0,
       reset: false,
-      turnCPU: false
+      turnCPU: false,
+      moves: 0
     }))
   }
 

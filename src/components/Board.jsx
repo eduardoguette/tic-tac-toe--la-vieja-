@@ -7,14 +7,15 @@ import { handleWinner } from '../helpers'
 
 export const Board = ({ handleClickReset }) => {
   const { state, setState } = useContext(AppContext)
-  const { companion, cpu } = state
+  const { companion, cpu, moves } = state
   const [winner, setWinner] = useState(null)
   const [player, setPlayer] = useState(null)
-  const [moves, setMoves] = useState(0)
+  
   const ref = useRef(null)
   const refBoard = useRef(null)
 
   useEffect(() => {
+
     setPlayer(() => (companion.turn ? companion.icon : state.icon))
 
     if (state.reset) {
@@ -35,6 +36,7 @@ export const Board = ({ handleClickReset }) => {
   }, [state, winner])
 
   const cpuMove = () => {
+
     if (state.winner || !state.playing) return
     const random = Math.floor(Math.random() * 9)
     const board = refBoard.current
@@ -54,7 +56,7 @@ export const Board = ({ handleClickReset }) => {
   }
 
   const handleClickPlay = (id, isSelected) => {
-    setMoves(moves + 1)
+    state.moves = moves + 1
     if (isSelected) return
     state.match = state.match.map((item) => {
       if (item.id === id) {
@@ -69,18 +71,21 @@ export const Board = ({ handleClickReset }) => {
       match: state.match,
       companion: {
         ...prev.companion,
-        turn: !prev.companion.turn
-      }
+        turn: !prev.companion.turn,
+      
+      },
+      
     }))
 
-    const winner = handleWinner(state.match, player)
-    if (setMoves === 9) {
+    if (state.moves === 9) {
+      console.log('empate', state)
       return setState((prev) => ({
         ...prev,
         winner: 'TIES',
         rounds: prev.rounds + 1
       }))
     }
+    const winner = handleWinner(state.match, player)
 
     if (winner) {
       setState((prev) => ({ ...prev, winner: winner, rounds: prev.rounds + 1 }))

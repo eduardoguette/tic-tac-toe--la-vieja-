@@ -23,12 +23,12 @@ export const Start = () => {
       },
       gamesWonCPU: 0,
       gamesWonPlayer: 0,
-      ties: 0
+      ties: 0, 
+      moves: 0,
     }))
   }
 
   const handleStartGamePlayer = () => {
-    console.log('handleStartGamePlayer')
     setState((prev) => ({
       ...prev,
       playing: true,
@@ -39,6 +39,7 @@ export const Start = () => {
         icon: toggleOn ? 'X' : 'O',
         turn: false
       },
+      moves: 0,
       gamesWonCPU: 0,
       gamesWonPlayer: 0,
       ties: 0

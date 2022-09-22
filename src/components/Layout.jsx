@@ -22,7 +22,8 @@ export const Layout = () => {
       icon: prev.icon,
       rounds: prev.rounds + 1,
       reset: true,
-      turnCPU: false
+      turnCPU: false,
+      moves: 0
     }))
   }
   return (
