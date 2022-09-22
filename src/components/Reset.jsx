@@ -13,7 +13,11 @@ export const Reset = ({ handleClickReset }) => {
         state.icon !== state.winner
           ? state.gamesWonPlayer
           : state.gamesWonPlayer + 1,
-      ties: state.winner === 'TIES' ? state.ties + 1 : state.ties
+      ties: state.winner === 'TIES' ? state.ties + 1 : state.ties,
+      companion:{
+        ...prev.companion,
+        turn: false
+      }
     }))
   }, [])
 

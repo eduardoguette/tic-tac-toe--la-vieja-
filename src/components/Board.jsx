@@ -7,13 +7,16 @@ import { handleWinner } from '../helpers'
 
 export const Board = ({ handleClickReset }) => {
   const { state, setState } = useContext(AppContext)
-  const [player, setPlayer] = useState(null)
+  const { companion, cpu } = state
   const [winner, setWinner] = useState(null)
+  const [player, setPlayer] = useState(null)
   const [moves, setMoves] = useState(0)
   const ref = useRef(null)
   const refBoard = useRef(null)
 
   useEffect(() => {
+    setPlayer(() => (companion.turn ? companion.icon : state.icon))
+
     if (state.reset) {
       setState((prev) => ({
         ...prev,
@@ -22,13 +25,14 @@ export const Board = ({ handleClickReset }) => {
       }))
       return
     }
-    if (state.turnCPU && state.cpu) {
+    const isTurnCPU = companion.name === 'CPU' && companion.turn
+
+    if (isTurnCPU) {
       setTimeout(() => {
-        if (state.turnCPU && state.playing) cpuMove()
+        if (isTurnCPU) cpuMove()
       }, 2000)
     }
-    if (!player) setPlayer(state.icon)
-  }, [state, player, winner])
+  }, [state, winner])
 
   const cpuMove = () => {
     if (state.winner || !state.playing) return
@@ -49,10 +53,9 @@ export const Board = ({ handleClickReset }) => {
     }
   }
 
-  const handleClickPlay = (id, isSelected, player) => {
+  const handleClickPlay = (id, isSelected) => {
     setMoves(moves + 1)
     if (isSelected) return
-
     state.match = state.match.map((item) => {
       if (item.id === id) {
         item.selected = true
@@ -64,10 +67,12 @@ export const Board = ({ handleClickReset }) => {
     setState((prev) => ({
       ...prev,
       match: state.match,
-      turnCPU: !state.turnCPU
+      companion: {
+        ...prev.companion,
+        turn: !prev.companion.turn
+      }
     }))
 
-    setPlayer(player === 'X' ? 'O' : 'X')
     const winner = handleWinner(state.match, player)
     if (setMoves === 9) {
       return setState((prev) => ({
@@ -80,6 +85,7 @@ export const Board = ({ handleClickReset }) => {
     if (winner) {
       setState((prev) => ({ ...prev, winner: winner, rounds: prev.rounds + 1 }))
     }
+
   }
 
   return (
@@ -104,7 +110,9 @@ export const Board = ({ handleClickReset }) => {
             ></path>
           </svg>
         )}
-        <h2 className='font-semibold text-xs md:text-md text-gray tracking-[2px]'>TURN</h2>
+        <h2 className='font-semibold text-xs md:text-md text-gray tracking-[2px]'>
+          TURN
+        </h2>
       </div>
       <button
         onClick={() => handleClickReset('restart')}
@@ -118,21 +126,23 @@ export const Board = ({ handleClickReset }) => {
         <div
           ref={ref}
           className={`grid w-20 h-20 md:w-32 md:h-32 font-extrabold rounded-lg bg-ocean_dark place-items-center shadow-solid ${
-            (state.turnCPU || box.selected) &&
-            state.cpu &&
+            (companion.turn || box.selected) &&
+            cpu &&
             'cursor-not-allowed pointer-events-none'
           }`}
           key={box.id}
           data-active={box.selected}
           data-id={box.id}
-          onClick={() => handleClickPlay(box.id, box.selected, player)}
+          onClick={() => handleClickPlay(box.id, box.selected)}
         >
           {box.player === 'X' && <img src={x} alt='x player' />}
           {box.player === 'O' && <img src={o} alt='o player' />}
         </div>
       ))}
       <div className='bg-yellow rounded-lg flex flex-col items-center py-2 shadow-md'>
-        <p className='text-xs md:text-lg'>{state.icon} {!state.cpu ? 'Player 1' : '(YOU)'}</p>
+        <p className='text-xs md:text-lg'>
+          {state.icon} {!cpu ? 'Player 1' : '(YOU)'}
+        </p>
         <h4 className='font-semibold text-xl'>{state.gamesWonPlayer}</h4>
       </div>
       <div className='bg-gray rounded-lg  flex flex-col items-center py-2 shadow-md'>
@@ -141,7 +151,7 @@ export const Board = ({ handleClickReset }) => {
       </div>
       <div className='bg-ocean rounded-lg  flex flex-col items-center py-2 shadow-md'>
         <p className='text-xs md:text-lg'>
-          {state.icon === 'O' ? 'X' : 'O'} {!state.cpu ? 'Player 2' : '(CPU)'}
+          {state.icon === 'O' ? 'X' : 'O'} {!cpu ? 'Player 2' : '(CPU)'}
         </p>
         <h4 className='font-semibold text-xl'>{state.gamesWonCPU}</h4>
       </div>

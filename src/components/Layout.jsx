@@ -8,6 +8,7 @@ import { Winner } from './Winner'
 
 export const Layout = () => {
   const { state, setState } = useContext(AppContext)
+  const { companion, cpu } = state
   const handleClickReset = () => {
     setState((prev) => ({
       ...prev,
@@ -18,6 +19,7 @@ export const Layout = () => {
         selected: false,
         player: null
       })),
+      icon: prev.icon,
       rounds: prev.rounds + 1,
       reset: true,
       turnCPU: false
@@ -36,7 +38,7 @@ export const Layout = () => {
         <Winner handleClickReset={handleClickReset} winner={state.winner} />
       )}
       <div className='h-32 w-full flex flex-col items-center'>
-        {state.turnCPU && !state.winner && state.cpu && <StatusCPU />}
+        {companion?.turn && cpu && <StatusCPU />}
       </div>
     </section>
   )

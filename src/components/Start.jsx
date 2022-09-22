@@ -16,7 +16,11 @@ export const Start = () => {
       playing: true,
       cpu: true,
       icon: !toggleOn ? 'X' : 'O',
-      turnCPU: false,
+      companion: {
+        name: 'CPU',
+        icon: toggleOn ? 'X' : 'O',
+        turn: false
+      },
       gamesWonCPU: 0,
       gamesWonPlayer: 0,
       ties: 0
@@ -24,12 +28,17 @@ export const Start = () => {
   }
 
   const handleStartGamePlayer = () => {
+    console.log('handleStartGamePlayer')
     setState((prev) => ({
       ...prev,
       playing: true,
       cpu: false,
       icon: !toggleOn ? 'X' : 'O',
-      turnCPU: false,
+      companion: {
+        name: 'Player 2',
+        icon: toggleOn ? 'X' : 'O',
+        turn: false
+      },
       gamesWonCPU: 0,
       gamesWonPlayer: 0,
       ties: 0
