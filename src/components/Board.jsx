@@ -3,19 +3,19 @@ import o from '../assets/o.svg'
 import reload from '../assets/reload.svg'
 import x from '../assets/x.svg'
 import { AppContext } from '../context'
-import { handleWinner } from '../helpers'
+import { handleMoveCPU, handleWinner } from '../helpers'
 
 export const Board = ({ handleClickReset }) => {
   const { state, setState } = useContext(AppContext)
   const { companion, cpu, moves } = state
   const [winner, setWinner] = useState(null)
   const [player, setPlayer] = useState(null)
-  
+  let num = useRef(0)
+
   const ref = useRef(null)
   const refBoard = useRef(null)
 
   useEffect(() => {
-
     setPlayer(() => (companion.turn ? companion.icon : state.icon))
 
     if (state.reset) {
@@ -31,17 +31,19 @@ export const Board = ({ handleClickReset }) => {
     if (isTurnCPU) {
       setTimeout(() => {
         if (isTurnCPU) cpuMove()
-      }, 2000)
+      }, 1000)
     }
   }, [state, winner])
 
   const cpuMove = () => {
-
     if (state.winner || !state.playing) return
-    const random = Math.floor(Math.random() * 9)
-    const board = refBoard.current
-    const cell = board.children[random]
+    const move = handleMoveCPU(state.match, state.icon)
+    console.log(move)
+    //const random = Math.floor(Math.random() * 9)
 
+    const board = refBoard.current
+ 
+    const cell = board.querySelector(`[data-id="${move}"]`) 
     if (moves >= 7) {
       const cell = document.querySelectorAll('[data-active="false"]')[0]
       cell.click()
@@ -71,10 +73,8 @@ export const Board = ({ handleClickReset }) => {
       match: state.match,
       companion: {
         ...prev.companion,
-        turn: !prev.companion.turn,
-      
-      },
-      
+        turn: !prev.companion.turn
+      }
     }))
 
     if (state.moves === 9) {
@@ -90,7 +90,6 @@ export const Board = ({ handleClickReset }) => {
     if (winner) {
       setState((prev) => ({ ...prev, winner: winner, rounds: prev.rounds + 1 }))
     }
-
   }
 
   return (
